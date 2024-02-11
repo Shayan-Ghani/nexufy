@@ -64,11 +64,10 @@ class GetNexusRepo():
             self.responses.append(response)
         return self.responses
 
-    def write_to_file(self, responses=None, file_path=None):
-        if responses != None:
-            if not isinstance(responses, list):
-                raise TypeError("repository names must be list!")
-            self.responses = responses
+    def write_to_file(self, data=None, file_path=None):
+        if data != None:
+            if not isinstance(data, str):
+                raise TypeError("data must be str!")
 
         if file_path != None:
             if not isinstance(file_path, str):
@@ -76,4 +75,38 @@ class GetNexusRepo():
             self.file_path = file_path
 
         with open(self.file_path, 'w') as f:
-            f.write(str([response.json() for response in self.responses]))
+            f.write(data)
+
+
+    def get_items(self, responses=None):
+        if responses != None:
+            if not isinstance(responses, list):
+                raise TypeError("repository names must be list!")
+            self.responses = responses
+        
+        json = responses[0].json()
+        data = []
+        data = json.get('items', [])
+        
+        if len(self.responses) > 1:
+            data.clear()
+            for response in self.responses:
+                json = response.json()
+                item = json.get('items', [])
+                data.append(item)
+
+        #TODO : make package variables use self to have access when an object created!
+        for package in data:
+            npm_info = package.get('npm', {})
+            package_name = npm_info.get('name')
+            package_version = npm_info.get('version')
+
+            package_size_bytes = package.get('fileSize')
+            package_size_kb = package_size_bytes / (1024)
+            package_last_downloaded = package.get('lastDownloaded')
+
+        return package_name, package_version, package_size_kb, package_last_downloaded
+    
+    def get_len(self):
+        p_len = len(self.repo_names)
+        return p_len
