@@ -13,28 +13,28 @@ class GetNexusRepo():
 
     def __init__(self, repo_names=None , base_url=None, file_path=None, username=None, password=None):
         if repo_names != None:
-            if not type(repo_names) is list:
+            if not isinstance(repo_names, list):
                 raise("repository names must be list!")
             self.repo_names = repo_names               
         else:
             raise("repository names can't be empty!")
         
         if base_url != None:
-            if not type(base_url) is str:
+            if not isinstance(base_url, str):
                 raise("base_url must be string!")
             self.base_url = base_url               
         else:
             raise("base_url can't be empty!")        
         
         if file_path != None:
-            if not type(file_path) is str:
+            if not isinstance(file_path, str):
                 raise("file_path must be string!")
             self.file_path = file_path               
         else:
             self.file_path = f"{path.dirname(__file__)}/data.txt"
 
         if username != None:
-            if not type(username) is str:
+            if not isinstance(username, str):
                 raise("username must be string!")
             self.username = username               
         else:
@@ -42,7 +42,7 @@ class GetNexusRepo():
 
 
         if password != None:
-            if not type(password) is str:
+            if not isinstance(password, str):
                 raise("password must be string!")
             self.password = password               
         else:
@@ -64,5 +64,3 @@ class GetNexusRepo():
             endpoint = self.repo_path + f'?repository={name}'
             self.responses.append(requests.get(endpoint, auth=self.auth_info))
             return self.responses
-
-
