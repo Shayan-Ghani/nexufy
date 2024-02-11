@@ -2,7 +2,7 @@ import.py
 
 **/__pycache__
 
-data.txt
+*.txt
 
 test.py
 

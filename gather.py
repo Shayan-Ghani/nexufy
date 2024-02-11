@@ -40,7 +40,6 @@ class GetNexusRepo():
         else:
             raise ValueError("username can't be empty!")
 
-
         if password != None:
             if not isinstance(password, str):   
                 raise TypeError("password must be string!")
@@ -57,10 +56,24 @@ class GetNexusRepo():
 
         self.auth_info = (self.username, self.password)
         
-
         self.repo_path = self.base_url + "service/rest/v1/search/assets"
 
         for name in self.repo_names:
             endpoint = self.repo_path + f'?repository={name}'
-            self.responses.append(requests.get(endpoint, auth=self.auth_info))
-            return self.responses
+            response = requests.get(endpoint, auth=self.auth_info)
+            self.responses.append(response)
+        return self.responses
+
+    def write_to_file(self, responses=None, file_path=None):
+        if responses != None:
+            if not isinstance(responses, list):
+                raise TypeError("repository names must be list!")
+            self.responses = responses
+
+        if file_path != None:
+            if not isinstance(file_path, str):
+                raise TypeError("file_path must be string!")
+            self.file_path = file_path
+
+        with open(self.file_path, 'w') as f:
+            f.write(str([response.json() for response in self.responses]))
