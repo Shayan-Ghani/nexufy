@@ -14,39 +14,39 @@ class GetNexusRepo():
     def __init__(self, repo_names=None , base_url=None, file_path=None, username=None, password=None):
         if repo_names != None:
             if not isinstance(repo_names, list):
-                raise("repository names must be list!")
+                raise TypeError("repository names must be list!")
             self.repo_names = repo_names               
         else:
-            raise("repository names can't be empty!")
+            raise ValueError("repository names can't be empty!")
         
         if base_url != None:
             if not isinstance(base_url, str):
-                raise("base_url must be string!")
+                raise TypeError("base_url must be string!")
             self.base_url = base_url               
         else:
-            raise("base_url can't be empty!")        
+            raise ValueError("base_url can't be empty!")        
         
         if file_path != None:
             if not isinstance(file_path, str):
-                raise("file_path must be string!")
+                raise TypeError("file_path must be string!")
             self.file_path = file_path               
         else:
             self.file_path = f"{path.dirname(__file__)}/data.txt"
 
         if username != None:
             if not isinstance(username, str):
-                raise("username must be string!")
+                raise TypeError("username must be string!")
             self.username = username               
         else:
-            raise("username can't be empty!")
+            raise ValueError("username can't be empty!")
 
 
         if password != None:
-            if not isinstance(password, str):
-                raise("password must be string!")
+            if not isinstance(password, str):   
+                raise TypeError("password must be string!")
             self.password = password               
         else:
-            raise("password can't be empty!")
+            raise ValueError("password can't be empty!")
 
     def auth(self, username=None, password=None, base_url=None):
         if username != None and password != None and base_url != None:
