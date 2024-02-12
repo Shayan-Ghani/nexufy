@@ -96,6 +96,7 @@ class GetNexusRepo():
                 data.append(item)
 
         #TODO : make package variables use self to have access when an object created!
+        #TODO : break every package into isolated methods
         for package in data:
             npm_info = package.get('npm', {})
             package_name = npm_info.get('name')
