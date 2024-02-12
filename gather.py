@@ -1,17 +1,19 @@
 import requests
 from os import path
 
-class GetNexusRepo():
-    repo_names = []
-    base_url = ""
-    repo_path = base_url + "service/rest/v1/search/assets"
-    file_path = f"{path.dirname(__file__)}/data.txt"
-    username = ""
-    password = ""
-    auth_info = ()
-    responses = []
+class NexusRepo():
 
     def __init__(self, repo_names=None , base_url=None, file_path=None, username=None, password=None):
+
+        self.repo_names = []
+        self.base_url = ""
+        self._repo_path = base_url + "service/rest/v1/search/assets"
+        self.file_path = f"{path.dirname(__file__)}/data.txt"
+        self.username = ""
+        self.password = ""
+        self.auth_info = ()
+        self.responses = []
+
         if repo_names != None:
             if not isinstance(repo_names, list):
                 raise TypeError("repository names must be list!")
@@ -84,30 +86,27 @@ class GetNexusRepo():
                 raise TypeError("repository names must be list!")
             self.responses = responses
         
-        json = responses[0].json()
-        data = []
-        data = json.get('items', [])
+        data = [r.json().get('items', []) for r in self.responses]
         
-        if len(self.responses) > 1:
-            data.clear()
-            for response in self.responses:
-                json = response.json()
-                item = json.get('items', [])
-                data.append(item)
-
+        return data
         #TODO : make package variables use self to have access when an object created!
         #TODO : break every package into isolated methods
-        for package in data:
-            npm_info = package.get('npm', {})
-            package_name = npm_info.get('name')
-            package_version = npm_info.get('version')
+        #TODO : typing and validation. default and search for efficiency, (pydantic).
+        #TODO : Change equall sign to is not for None checking.
+        #TODO : use pythonic for better python-native code.
+        #TODO : remove single-check for get_items
+        
+    #     for package in data:
+    #         npm_info = package.get('npm', {})
+    #         package_name = npm_info.get('name')
+    #         package_version = npm_info.get('version')
 
-            package_size_bytes = package.get('fileSize')
-            package_size_kb = package_size_bytes / (1024)
-            package_last_downloaded = package.get('lastDownloaded')
+    #         package_size_bytes = package.get('fileSize')
+    #         package_size_kb = package_size_bytes / (1024)
+    #         package_last_downloaded = package.get('lastDownloaded')
 
-        return package_name, package_version, package_size_kb, package_last_downloaded
+    #     return package_name, package_version, package_size_kb, package_last_downloaded
     
-    def get_len(self):
-        p_len = len(self.repo_names)
-        return p_len
+    # def get_len(self):
+    #     p_len = len(self.repo_names)
+    #     return p_len
