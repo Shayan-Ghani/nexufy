@@ -1,4 +1,4 @@
-import requests
+from requests import get
 from os import path
 
 class NexusRepo():
@@ -51,7 +51,7 @@ class NexusRepo():
 
         for name in self.repo_names:
             endpoint = self._repo_path + f'?repository={name}'
-            response = requests.get(endpoint, auth=self.auth_info)
+            response = get(endpoint, auth=self.auth_info)
             self.responses.append(response)
         return self.responses
 
