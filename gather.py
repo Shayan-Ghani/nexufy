@@ -2,63 +2,50 @@ from requests import get
 from os import path
 
 class NexusRepo():
-
+    repo_names = []
+    base_url = ""
+    _repo_path = base_url + "service/rest/v1/search/assets"
+    file_path = f"{path.dirname(__file__)}/data.txt"
+    username = ""
+    password = ""
+    responses = []
+    
     def __init__(self, repo_names:list = [] , base_url:str = "", username:str = "", password:str = ""):
 
-        self.repo_names = []
-        self.base_url = ""
-        self._repo_path = base_url + "service/rest/v1/search/assets"
-        self.file_path = f"{path.dirname(__file__)}/data.txt"
-        self.username = ""
-        self.password = ""
-        self.auth_info = ()
-        self.responses = []
-
-        if repo_names is not None:
-            assert isinstance(repo_names, list)
-            self.repo_names = repo_names               
-        else:
-            raise ValueError("repository names can't be empty!")
+        assert isinstance(repo_names, list) 
+        self.repo_names = repo_names
+                 
+        assert isinstance(base_url, str)
+        self.base_url = base_url              
         
-        if base_url is not None:
-            assert isinstance(base_url, str)
-            self.base_url = base_url              
-        else:
-            raise ValueError("base_url can't be empty!")        
+        assert isinstance(username, str)
+        self.username = username               
+        
+        assert isinstance(password, str)
+        self.password = password            
 
-        if username is not None:
-            assert isinstance(username, str)
-            self.username = username               
-        else:
-            raise ValueError("username can't be empty!")
-
-        if password is not None:
-            assert isinstance(password, str)
-            self.password = password               
-        else:
-            raise ValueError("password can't be empty!")
-
-    def auth(self, username:str = "", password:str = "", base_url:str = "") -> list:
+    def auth(self, username:str = None, password:str = None, base_url:str = None) -> list:
         if username is not None and password is not None and base_url is not None:
             self.username = username
             self.password = password
             self.base_url = base_url 
-            self.auth_info = (username, password)
+            
+            auth_info = (username, password)
 
-        self.auth_info = (self.username, self.password)
+        auth_info = (self.username, self.password)
         
         self._repo_path = self.base_url + "service/rest/v1/search/assets"
 
         for name in self.repo_names:
             endpoint = self._repo_path + f'?repository={name}'
-            response = get(endpoint, auth=self.auth_info)
+            response = get(endpoint, auth=auth_info)
             self.responses.append(response)
         return self.responses
 
     def write_to_file(self, data:str = "", file_path:str = ""):
-        if data is not None:
-            assert isinstance(data, str)
-        if file_path is not None:
+        assert isinstance(data, str)
+        
+        if file_path != "":
             assert isinstance(file_path, str)
             self.file_path = file_path
 
@@ -67,7 +54,7 @@ class NexusRepo():
 
 
     def get_items(self, responses:list = []) -> list:
-        if responses is not None:
+        if responses != []:
             assert isinstance(responses, list)
             self.responses = responses
         
