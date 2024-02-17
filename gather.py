@@ -3,7 +3,7 @@ from os import path
 
 class NexusRepo():
 
-    def __init__(self, repo_names=None , base_url=None, file_path=None, username=None, password=None):
+    def __init__(self, repo_names:list = [] , base_url:str = "", username:str = "", password:str = ""):
 
         self.repo_names = []
         self.base_url = ""
@@ -25,12 +25,6 @@ class NexusRepo():
             self.base_url = base_url              
         else:
             raise ValueError("base_url can't be empty!")        
-        
-        if file_path is not None:
-            assert isinstance(file_path, str)
-            self.file_path = file_path               
-        else:
-            self.file_path = f"{path.dirname(__file__)}/data.txt"
 
         if username is not None:
             assert isinstance(username, str)
@@ -44,7 +38,7 @@ class NexusRepo():
         else:
             raise ValueError("password can't be empty!")
 
-    def auth(self, username=None, password=None, base_url=None):
+    def auth(self, username:str = "", password:str = "", base_url:str = "") -> list:
         if username is not None and password is not None and base_url is not None:
             self.username = username
             self.password = password
@@ -61,7 +55,7 @@ class NexusRepo():
             self.responses.append(response)
         return self.responses
 
-    def write_to_file(self, data=None, file_path=None):
+    def write_to_file(self, data:str = "", file_path:str = ""):
         if data is not None:
             assert isinstance(data, str)
         if file_path is not None:
@@ -72,7 +66,7 @@ class NexusRepo():
             f.write(data)
 
 
-    def get_items(self, responses=None):
+    def get_items(self, responses:list = []) -> list:
         if responses is not None:
             assert isinstance(responses, list)
             self.responses = responses
@@ -84,10 +78,10 @@ class NexusRepo():
         #TODO : break every package into isolated methods
         #TODO : typing and validation. default and search for efficiency, (pydantic).
         #TODO : use pythonic for better python-native code.
-        #TODO : remove single-check for get_items
         #TODO : try to call methods within the class to get the getter data don't handle them again. 
         #TODO : you don't have to get the arguments for different parameters in every methods that's why we use class cause we already have its state.
-        
+        #TODO : add set file path.
+
     #     for package in data:
     #         npm_info = package.get('npm', {})
     #         package_name = npm_info.get('name')
@@ -99,6 +93,6 @@ class NexusRepo():
 
     #     return package_name, package_version, package_size_kb, package_last_downloaded
     
-    # def get_len(self):
-    #     p_len = len(self.repo_names)
-    #     return p_len
+    def get_len(self) -> int:
+        p_len = len(self.repo_names)
+        return p_len
