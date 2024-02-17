@@ -15,36 +15,31 @@ class NexusRepo():
         self.responses = []
 
         if repo_names != None:
-            if not isinstance(repo_names, list):
-                raise TypeError("repository names must be list!")
+            assert isinstance(repo_names, list)
             self.repo_names = repo_names               
         else:
             raise ValueError("repository names can't be empty!")
         
         if base_url != None:
-            if not isinstance(base_url, str):
-                raise TypeError("base_url must be string!")
-            self.base_url = base_url               
+            assert isinstance(base_url, str)
+            self.base_url = base_url              
         else:
             raise ValueError("base_url can't be empty!")        
         
         if file_path != None:
-            if not isinstance(file_path, str):
-                raise TypeError("file_path must be string!")
+            assert isinstance(file_path, str)
             self.file_path = file_path               
         else:
             self.file_path = f"{path.dirname(__file__)}/data.txt"
 
         if username != None:
-            if not isinstance(username, str):
-                raise TypeError("username must be string!")
+            assert isinstance(username, str)
             self.username = username               
         else:
             raise ValueError("username can't be empty!")
 
         if password != None:
-            if not isinstance(password, str):   
-                raise TypeError("password must be string!")
+            assert isinstance(password, str)
             self.password = password               
         else:
             raise ValueError("password can't be empty!")
@@ -58,22 +53,19 @@ class NexusRepo():
 
         self.auth_info = (self.username, self.password)
         
-        self.repo_path = self.base_url + "service/rest/v1/search/assets"
+        self._repo_path = self.base_url + "service/rest/v1/search/assets"
 
         for name in self.repo_names:
-            endpoint = self.repo_path + f'?repository={name}'
+            endpoint = self._repo_path + f'?repository={name}'
             response = requests.get(endpoint, auth=self.auth_info)
             self.responses.append(response)
         return self.responses
 
     def write_to_file(self, data=None, file_path=None):
         if data != None:
-            if not isinstance(data, str):
-                raise TypeError("data must be str!")
-
+            assert isinstance(data, str)
         if file_path != None:
-            if not isinstance(file_path, str):
-                raise TypeError("file_path must be string!")
+            assert isinstance(file_path, str)
             self.file_path = file_path
 
         with open(self.file_path, 'w') as f:
@@ -82,8 +74,7 @@ class NexusRepo():
 
     def get_items(self, responses=None):
         if responses != None:
-            if not isinstance(responses, list):
-                raise TypeError("repository names must be list!")
+            assert isinstance(responses, list)
             self.responses = responses
         
         data = [r.json().get('items', []) for r in self.responses]
@@ -95,6 +86,8 @@ class NexusRepo():
         #TODO : Change equall sign to is not for None checking.
         #TODO : use pythonic for better python-native code.
         #TODO : remove single-check for get_items
+        #TODO : try to call methods within the class to get the getter data don't handle them again. 
+        #TODO you don't have to get the arguments for different parameters in every methods that's why we use class cause we already have its state.
         
     #     for package in data:
     #         npm_info = package.get('npm', {})
