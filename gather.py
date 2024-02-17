@@ -14,38 +14,38 @@ class NexusRepo():
         self.auth_info = ()
         self.responses = []
 
-        if repo_names != None:
+        if repo_names is not None:
             assert isinstance(repo_names, list)
             self.repo_names = repo_names               
         else:
             raise ValueError("repository names can't be empty!")
         
-        if base_url != None:
+        if base_url is not None:
             assert isinstance(base_url, str)
             self.base_url = base_url              
         else:
             raise ValueError("base_url can't be empty!")        
         
-        if file_path != None:
+        if file_path is not None:
             assert isinstance(file_path, str)
             self.file_path = file_path               
         else:
             self.file_path = f"{path.dirname(__file__)}/data.txt"
 
-        if username != None:
+        if username is not None:
             assert isinstance(username, str)
             self.username = username               
         else:
             raise ValueError("username can't be empty!")
 
-        if password != None:
+        if password is not None:
             assert isinstance(password, str)
             self.password = password               
         else:
             raise ValueError("password can't be empty!")
 
     def auth(self, username=None, password=None, base_url=None):
-        if username != None and password != None and base_url != None:
+        if username is not None and password is not None and base_url is not None:
             self.username = username
             self.password = password
             self.base_url = base_url 
@@ -62,9 +62,9 @@ class NexusRepo():
         return self.responses
 
     def write_to_file(self, data=None, file_path=None):
-        if data != None:
+        if data is not None:
             assert isinstance(data, str)
-        if file_path != None:
+        if file_path is not None:
             assert isinstance(file_path, str)
             self.file_path = file_path
 
@@ -73,7 +73,7 @@ class NexusRepo():
 
 
     def get_items(self, responses=None):
-        if responses != None:
+        if responses is not None:
             assert isinstance(responses, list)
             self.responses = responses
         
@@ -83,11 +83,10 @@ class NexusRepo():
         #TODO : make package variables use self to have access when an object created!
         #TODO : break every package into isolated methods
         #TODO : typing and validation. default and search for efficiency, (pydantic).
-        #TODO : Change equall sign to is not for None checking.
         #TODO : use pythonic for better python-native code.
         #TODO : remove single-check for get_items
         #TODO : try to call methods within the class to get the getter data don't handle them again. 
-        #TODO you don't have to get the arguments for different parameters in every methods that's why we use class cause we already have its state.
+        #TODO : you don't have to get the arguments for different parameters in every methods that's why we use class cause we already have its state.
         
     #     for package in data:
     #         npm_info = package.get('npm', {})
