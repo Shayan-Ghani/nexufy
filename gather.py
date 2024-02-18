@@ -24,8 +24,8 @@ class NexusRepo():
         assert isinstance(password, str)
         self.password = password            
 
-    def auth(self, username:str = None, password:str = None, base_url:str = None) -> list:
-        if username is not None and password is not None and base_url is not None:
+    def auth(self, username:str = "", password:str = "", base_url:str = "") -> list:
+        if username != "" and password != "" and base_url != "":
             self.username = username
             self.password = password
             self.base_url = base_url 
@@ -42,6 +42,13 @@ class NexusRepo():
             self.responses.append(response)
         return self.responses
 
+    def set_file_path(self, file_path:str = ""):
+            if file_path != "":
+                assert isinstance(file_path, str)
+                if not path.exists(file_path):
+                    raise Exception(f"path {file_path} doesn't exist!")
+                self.file_path = file_path
+                
     def write_to_file(self, data:str = "", file_path:str = ""):
         assert isinstance(data, str)
         
@@ -51,7 +58,7 @@ class NexusRepo():
 
         with open(self.file_path, 'w') as f:
             f.write(data)
-
+   
 
     def get_items(self, responses:list = []) -> list:
         if responses != []:
