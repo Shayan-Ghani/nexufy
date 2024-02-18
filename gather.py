@@ -42,21 +42,20 @@ class NexusRepo():
             self.responses.append(response)
         return self.responses
 
-    def set_file_path(self, file_path:str = ""):
-            if file_path != "":
-                assert isinstance(file_path, str)
-                if not path.exists(file_path):
-                    raise Exception(f"path {file_path} doesn't exist!")
-                self.file_path = file_path
-                
-    def write_to_file(self, data:str = "", file_path:str = ""):
-        assert isinstance(data, str)
-        
+    def set_file_path(self, file_path:str = "") -> str:
         if file_path != "":
             assert isinstance(file_path, str)
+            if not path.exists(file_path):
+                raise Exception(f"path {file_path} doesn't exist!")
             self.file_path = file_path
+        
+        return self.file_path
+    
+    def write_to_file(self, data:str = "", path:str = ""):
+        
+        file_path = self.set_file_path(file_path=path)
 
-        with open(self.file_path, 'w') as f:
+        with open(file_path, 'w') as f:
             f.write(data)
    
 
