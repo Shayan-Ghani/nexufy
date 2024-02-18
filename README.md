@@ -8,10 +8,10 @@ A simple Object Oriented Program to work with Sonatype Nexus REST API, planning 
 from gather import Nexufy
 
 # initialize the class
-obj = Nexufy(base_url=base_url, repo_names=["npm-group", "docker-proxy"])
+obj = Nexufy(base_url="nexus_url", repo_names=["npm-group", "docker-proxy"])
 
 # authenticate into Nexus
-obj.auth(username=username, password=password)
+obj.auth(username="nexus_username", password="nexus_password")
 
 # choose what you want from the repositories. e.g last_downloaded of the packages
 r = obj.last_downloaded()
@@ -25,5 +25,8 @@ By default `write_to_file` method, creates a file called `data.txt` inside the d
 
 # Contributions
 All sorts of contributions are welcomed.
+
+# TO-DO
+- [] Implement Deletion
 
 Copyright © 2024 Shayan Ghani shayanghani1384@gmail.com
