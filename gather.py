@@ -9,6 +9,7 @@ class NexusRepo():
     username = ""
     password = ""
     responses = []
+    auth_info = ()
     
     def __init__(self, repo_names:list = [] , base_url:str = "", username:str = "", password:str = ""):
 
@@ -24,25 +25,8 @@ class NexusRepo():
         assert isinstance(password, str)
         self.password = password            
 
-    def auth(self, username:str = "", password:str = "", base_url:str = "") -> list:
-        if username != "" and password != "" and base_url != "":
-            self.username = username
-            self.password = password
-            self.base_url = base_url 
-            
-            auth_info = (username, password)
 
-        auth_info = (self.username, self.password)
-        
-        self._repo_path = self.base_url + "service/rest/v1/search/assets"
-
-        for name in self.repo_names:
-            endpoint = self._repo_path + f'?repository={name}'
-            response = get(endpoint, auth=auth_info)
-            self.responses.append(response)
-        return self.responses
-
-    def set_file_path(self, file_path:str = "") -> str:
+    def _set_file_path(self, file_path:str = "") -> str:
         if file_path != "":
             assert isinstance(file_path, str)
             if not path.exists(file_path):
@@ -53,11 +37,31 @@ class NexusRepo():
     
     def write_to_file(self, data:str = "", path:str = ""):
         
-        file_path = self.set_file_path(file_path=path)
+        file_path = self._set_file_path(file_path=path)
 
         with open(file_path, 'w') as f:
             f.write(data)
    
+
+    def auth(self, username:str = "", password:str = "", base_url:str = ""):
+        if username != "" and password != "" and base_url != "":
+            assert isinstance(username, str)
+            self.username = username
+            assert isinstance(password, str)
+            self.password = password
+            assert isinstance(base_url, str)
+            self.base_url = base_url
+
+        self._repo_path = self.base_url + "service/rest/v1/search/assets"
+
+        self.auth_info = (self.username, self.password)
+    
+    def _get_response(self) -> list:
+        for name in self.repo_names:
+            endpoint = self._repo_path + f'?repository={name}'
+            response = get(endpoint, auth=self.auth_info)
+            self.responses.append(response)
+        return self.responses        
 
     def get_items(self, responses:list = []) -> list:
         if responses != []:
