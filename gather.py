@@ -79,22 +79,22 @@ class NexusRepo():
         return path
     
     def npm_info(self) -> list:
-        names = []
+        info = []
         for response in self.get_items():
-            names += [f"{r.get('npm', {}).get('name')} : {r.get('npm', {}).get('version')}" for r in response]
-        return names
+            info += [f"{r.get('npm', {}).get('name')} : {r.get('npm', {}).get('version')}" for r in response]
+        return info
     
     def size(self) -> list:
         f_size = []
         for response in self.get_items():
-            f_size = [r.get('fileSize') / (1024) for r in response]
+            f_size = [f"{r.get('path')} : {r.get('fileSize') / (1024)}" for r in response]
 
         return f_size
 
     def last_downloaded(self) -> list:
         d_time = []
         for response in self.get_items():
-            d_time += [r.get('lastDownloaded') for r in response]
+            d_time += [f"{r.get('path')} : {r.get('lastDownloaded')}" for r in response]
             
         return d_time
 
