@@ -66,7 +66,7 @@ class NexusRepo():
             
         return data
 
-    def get_path(self) -> list:
+    def path(self) -> list:
         path = []
         for response in self.get_items():
             path += [r.get('path') for r in response]
@@ -74,35 +74,31 @@ class NexusRepo():
         # return data
         return path
     
-    def get_npm_name(self) -> list:
-        info = []
+    def npm_name(self) -> list:
+        names = []
         for response in self.get_items():
-            info += [r.get('npm', {}).get('name') for r in response]
-        
-        return info
+            names += [r.get('npm', {}).get('name') for r in response]
+        return names
     
-    def get_npm_version(self) -> list:
-        info = []
+    def npm_version(self) -> list:
+        versions = []
         for response in self.get_items():
-            info += [r.get('npm', {}).get('version') for r in response]
-        return info
+            versions += [r.get('npm', {}).get('version') for r in response]
+        return versions
     
-    # def get_size(self) -> list:
-    #     path = []
-    #     for response in self.get_items():
-    #         path += [r.get('path') for r in response]
-    # #         package_size_bytes = package.get('fileSize')
-    # #         package_size_kb = package_size_bytes / (1024)            
-    #     return path
+    def size(self) -> list:
+        f_size = []
+        for response in self.get_items():
+            f_size = [r.get('fileSize') / (1024) for r in response]
 
-    # def get_last_downloaded(self) -> list:
-    #     path = []
-    #     for response in self.get_items():
-    #         path += [r.get('path') for r in response]
-    # #         package_last_downloaded = package.get('lastDownloaded')
+        return f_size
+
+    def last_downloaded(self) -> list:
+        d_time = []
+        for response in self.get_items():
+            d_time += [r.get('lastDownloaded') for r in response]
             
-    #     return path
-
+        return d_time
 
         #TODO : make package variables use self to have access when an object created!
         #TODO : break every package into isolated methods
