@@ -98,11 +98,7 @@ class Nexufy():
             
         return d_time
 
-        #TODO : make package variables use self to have access when an object created!
-        #TODO : break every package into isolated methods
         #TODO : typing and validation. default and search for efficiency, (pydantic).
-        #TODO : create seperate methods for seperate data from nexus.
-        #TODO : add name as the defult value for all methods.
-    
+
     def get_len(self , items: list = []) -> int:
         return len(items)
