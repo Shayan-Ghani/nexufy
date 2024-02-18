@@ -1,7 +1,7 @@
 from requests import get
 from os import path
 
-class NexusRepo():
+class Nexufy():
     repo_names = []
     base_url = ""
     _repo_path = base_url + "service/rest/v1/search/assets"
