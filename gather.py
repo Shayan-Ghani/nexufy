@@ -56,7 +56,7 @@ class NexusRepo():
 
         self.auth_info = (self.username, self.password)
     
-    def _get_response(self) -> list:
+    def get_items(self) -> list:
         data = []
         for name in self.repo_names:
             endpoint = self._repo_path + f'?repository={name}'
@@ -66,28 +66,49 @@ class NexusRepo():
             
         return data
 
-    def get_items(self) -> list:
-        info = []
-        for response in self._get_response():
-            info += [r.get('path') for r in response]
+    def get_path(self) -> list:
+        path = []
+        for response in self.get_items():
+            path += [r.get('path') for r in response]
             
         # return data
+        return path
+    
+    def get_npm_name(self) -> list:
+        info = []
+        for response in self.get_items():
+            info += [r.get('npm', {}).get('name') for r in response]
+        
         return info
     
+    def get_npm_version(self) -> list:
+        info = []
+        for response in self.get_items():
+            info += [r.get('npm', {}).get('version') for r in response]
+        return info
+    
+    # def get_size(self) -> list:
+    #     path = []
+    #     for response in self.get_items():
+    #         path += [r.get('path') for r in response]
+    # #         package_size_bytes = package.get('fileSize')
+    # #         package_size_kb = package_size_bytes / (1024)            
+    #     return path
+
+    # def get_last_downloaded(self) -> list:
+    #     path = []
+    #     for response in self.get_items():
+    #         path += [r.get('path') for r in response]
+    # #         package_last_downloaded = package.get('lastDownloaded')
+            
+    #     return path
+
+
         #TODO : make package variables use self to have access when an object created!
         #TODO : break every package into isolated methods
         #TODO : typing and validation. default and search for efficiency, (pydantic).
-
-    #     for package in data:
-    #         npm_info = package.get('npm', {})
-    #         package_name = npm_info.get('name')
-    #         package_version = npm_info.get('version')
-
-    #         package_size_bytes = package.get('fileSize')
-    #         package_size_kb = package_size_bytes / (1024)
-    #         package_last_downloaded = package.get('lastDownloaded')
-
-    #     return package_name, package_version, package_size_kb, package_last_downloaded
+        #TODO : create seperate methods for seperate data from nexus.
+        #TODO : add name as the defult value for all methods.
     
     def get_len(self , items: list = []) -> int:
         return len(items)
