@@ -67,24 +67,22 @@ class NexusRepo():
         return data
 
     def path(self) -> list:
-        path = []
+        path = [] 
+        # if response != []:
+        #     path += [r.get('path') for r in response]            
+        #     return path
+                
         for response in self.get_items():
             path += [r.get('path') for r in response]
             
         # return data
         return path
     
-    def npm_name(self) -> list:
+    def npm_info(self) -> list:
         names = []
         for response in self.get_items():
-            names += [r.get('npm', {}).get('name') for r in response]
+            names += [f"{r.get('npm', {}).get('name')} : {r.get('npm', {}).get('version')}" for r in response]
         return names
-    
-    def npm_version(self) -> list:
-        versions = []
-        for response in self.get_items():
-            versions += [r.get('npm', {}).get('version') for r in response]
-        return versions
     
     def size(self) -> list:
         f_size = []
