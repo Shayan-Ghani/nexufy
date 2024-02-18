@@ -22,7 +22,7 @@ class NexusRepo():
         self.username = username               
         
         assert isinstance(password, str)
-        self.password = password            
+        self.password = password
 
     def _set_file_path(self, file_path:str = "") -> str:
         if file_path != "":
@@ -42,11 +42,13 @@ class NexusRepo():
    
 
     def auth(self, username:str = "", password:str = "", base_url:str = ""):
-        if username != "" and password != "" and base_url != "":
+        if username != "" and password != "":
             assert isinstance(username, str)
             self.username = username
             assert isinstance(password, str)
             self.password = password
+        
+        if base_url != "":
             assert isinstance(base_url, str)
             self.base_url = base_url
 
@@ -55,19 +57,23 @@ class NexusRepo():
         self.auth_info = (self.username, self.password)
     
     def _get_response(self) -> list:
-        responses = []
+        data = []
         for name in self.repo_names:
             endpoint = self._repo_path + f'?repository={name}'
             response = get(endpoint, auth=self.auth_info)
-            responses.append(response)
-        return responses
+            # data = [r.json().get('items', []) for r in response]
+            data.append(response.json().get('items', []))
+            
+        return data
 
     def get_items(self) -> list:
-        response = self._get_response()
-        
-        data = [r.json().get('items', []) for r in response]
-        
-        return data
+        info = []
+        for response in self._get_response():
+            info += [r.get('path') for r in response]
+            
+        # return data
+        return info
+    
         #TODO : make package variables use self to have access when an object created!
         #TODO : break every package into isolated methods
         #TODO : typing and validation. default and search for efficiency, (pydantic).
@@ -83,6 +89,5 @@ class NexusRepo():
 
     #     return package_name, package_version, package_size_kb, package_last_downloaded
     
-    def get_len(self) -> int:
-        p_len = len(self.repo_names)
-        return p_len
+    def get_len(self , items: list = []) -> int:
+        return len(items)
