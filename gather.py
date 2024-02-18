@@ -8,9 +8,8 @@ class NexusRepo():
     file_path = f"{path.dirname(__file__)}/data.txt"
     username = ""
     password = ""
-    responses = []
     auth_info = ()
-    
+
     def __init__(self, repo_names:list = [] , base_url:str = "", username:str = "", password:str = ""):
 
         assert isinstance(repo_names, list) 
@@ -24,7 +23,6 @@ class NexusRepo():
         
         assert isinstance(password, str)
         self.password = password            
-
 
     def _set_file_path(self, file_path:str = "") -> str:
         if file_path != "":
@@ -57,27 +55,22 @@ class NexusRepo():
         self.auth_info = (self.username, self.password)
     
     def _get_response(self) -> list:
+        responses = []
         for name in self.repo_names:
             endpoint = self._repo_path + f'?repository={name}'
             response = get(endpoint, auth=self.auth_info)
-            self.responses.append(response)
-        return self.responses        
+            responses.append(response)
+        return responses
 
-    def get_items(self, responses:list = []) -> list:
-        if responses != []:
-            assert isinstance(responses, list)
-            self.responses = responses
+    def get_items(self) -> list:
+        response = self._get_response()
         
-        data = [r.json().get('items', []) for r in self.responses]
+        data = [r.json().get('items', []) for r in response]
         
         return data
         #TODO : make package variables use self to have access when an object created!
         #TODO : break every package into isolated methods
         #TODO : typing and validation. default and search for efficiency, (pydantic).
-        #TODO : use pythonic for better python-native code.
-        #TODO : try to call methods within the class to get the getter data don't handle them again. 
-        #TODO : you don't have to get the arguments for different parameters in every methods that's why we use class cause we already have its state.
-        #TODO : add set file path.
 
     #     for package in data:
     #         npm_info = package.get('npm', {})
