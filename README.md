@@ -27,6 +27,6 @@ By default `write_to_file` method, creates a file called `data.txt` inside the d
 All sorts of contributions are welcomed.
 
 # TO-DO
-- [] Implement Deletion
+- [ ] Implement Deletion
 
 Copyright © 2024 Shayan Ghani shayanghani1384@gmail.com
