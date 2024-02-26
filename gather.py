@@ -2,7 +2,7 @@ from requests import get
 from requests import delete as DEL
 from os import path
 
-class Nexufy():
+class Assets():
     repo_names = []
     base_url = ""
     _repo_path = base_url + "service/rest/v1/search/assets"
@@ -79,6 +79,12 @@ class Nexufy():
         # return data
         return path
     
+    def get_ids(self) -> list:
+        id = []
+        for response in self.get_items():
+            id += [f"{r.get('path')} : {r.get('id')}" for r in response]
+        return id
+
     def npm_info(self) -> list:
         info = []
         for response in self.get_items():
@@ -102,9 +108,20 @@ class Nexufy():
 
         #TODO : typing and validation. default and search for efficiency, (pydantic).
         #TODO : changed all feature methods to process by name.
-
+        #TODO: migrate all of the methods to work with id.
+        #TODO: impel single GET as well using id.
+        #TODO: isolate BULK from Single and make them inherit the base class.
+        #TODO: impel component for both single and bulk.
+        #TODO: impel deletion for both single and bulk.
+    
+    
     def get_len(self , items: list = []) -> int:
         return len(items)
+    
+    def get_swagger(self):
+        url = self.base_url + "service/rest/swagger.json"
+        swag_json = get(url).json()
+        return swag_json
 
 
 # class DeletePackage(Nexufy):
