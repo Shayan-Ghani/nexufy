@@ -1,4 +1,5 @@
 from requests import get
+from requests import delete as DEL
 from os import path
 
 class Nexufy():
@@ -91,14 +92,26 @@ class Nexufy():
 
         return f_size
 
-    def last_downloaded(self) -> list:
-        d_time = []
+    def last_downloaded(self) -> dict:
+        d_time = {}
         for response in self.get_items():
-            d_time += [f"{r.get('path')} : {r.get('lastDownloaded')}" for r in response]
+            for r in response:
+                d_time.update({r.get('path'): r.get('lastDownloaded')})
             
         return d_time
 
         #TODO : typing and validation. default and search for efficiency, (pydantic).
+        #TODO : changed all feature methods to process by name.
 
     def get_len(self , items: list = []) -> int:
         return len(items)
+
+
+# class DeletePackage(Nexufy):
+#     def delete_package(self, name:str):
+#         del_url = self.base_url + "path/to/delete/api"
+#         DEL(url=del_url)
+
+#     def by_name(self, pkg_names:list = []):
+#         for name in pkg_names:
+#             self.delete_package(name=name)
