@@ -18,7 +18,7 @@ setup(
         "urllib3==2.2.2"
     ],
     classifiers=[
-        'Development Status :: 3 - Pre-Alpha',
+        'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3',
