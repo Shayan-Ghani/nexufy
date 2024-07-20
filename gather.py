@@ -113,7 +113,7 @@ class Assets():
         #TODO: isolate BULK from Single and make them inherit the base class.
         #TODO: impel component for both single and bulk.
         #TODO: impel deletion for both single and bulk.
-    
+        #TODO: use map function when possible  
     
     def get_len(self , items: list = []) -> int:
         return len(items)
