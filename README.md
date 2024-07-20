@@ -5,10 +5,10 @@ A simple Object Oriented Program to work with Sonatype Nexus REST API, planning 
 # How To Use
 
 ```python
-from gather import Nexufy
+from nexupy.assets import Assets
 
 # initialize the class
-obj = Nexufy(base_url="nexus_url", repo_names=["npm-group", "docker-proxy"])
+obj = Assets(base_url="nexus_url", repo_names=["npm-group", "docker-proxy"])
 
 # authenticate into Nexus
 obj.auth(username="nexus_username", password="nexus_password")
