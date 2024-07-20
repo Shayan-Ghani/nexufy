@@ -1,5 +1,4 @@
 from requests import get
-from requests import delete as DEL
 from os import path
 
 class Assets():
@@ -122,13 +121,3 @@ class Assets():
         url = self.base_url + "service/rest/swagger.json"
         swag_json = get(url).json()
         return swag_json
-
-
-# class DeletePackage(Nexufy):
-#     def delete_package(self, name:str):
-#         del_url = self.base_url + "path/to/delete/api"
-#         DEL(url=del_url)
-
-#     def by_name(self, pkg_names:list = []):
-#         for name in pkg_names:
-#             self.delete_package(name=name)
