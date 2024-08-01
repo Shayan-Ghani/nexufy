@@ -29,4 +29,4 @@ All sorts of contributions are welcomed.
 # TO-DO
 - [ ] Implement Deletion
 
-Copyright © 2024 Shayan Ghani shayanghani1384@gmail.com
+Copyright © 2024 Shayan Ghani shayan.ghani.tech@gmail.com
